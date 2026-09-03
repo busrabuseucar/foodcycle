@@ -1,0 +1,146 @@
+<!doctype html><html lang="tr"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>FoodCycle AI — Final Web MVP V2.0</title>
+<style>
+:root{--g:#173b28;--a:#276749;--bg:#f5f7f5;--c:#fff;--l:#dce5df;--m:#657168}
+*{box-sizing:border-box}body{margin:0;font-family:Arial,sans-serif;background:var(--bg);color:#17231c}header{background:var(--g);color:white;padding:18px 4vw;display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap;position:sticky;top:0}.brand{font-size:24px;font-weight:800}.demo{background:#f6d477;color:#352700;padding:8px 12px;border-radius:20px;font-size:12px;font-weight:800}main{max-width:1200px;margin:auto;padding:24px}.hero,.grid{display:grid;grid-template-columns:1fr 1fr;gap:16px}.card{background:var(--c);border:1px solid var(--l);border-radius:16px;padding:18px;box-shadow:0 5px 20px #1835240c}.full{grid-column:1/-1}h1{font-size:32px;margin:0 0 10px}h2{font-size:18px}.muted{color:var(--m)}.flow{display:flex;gap:7px;flex-wrap:wrap}.flow span,.tech span{background:#eaf4ee;padding:7px 9px;border-radius:8px;font-size:12px;font-weight:700}.kpis{display:grid;grid-template-columns:repeat(5,1fr);gap:10px;margin:16px 0}.kpi{background:#fff;border:1px solid var(--l);border-radius:13px;padding:14px}.kpi small{color:var(--m)}.kpi b{display:block;font-size:22px;margin-top:6px}.row{display:grid;grid-template-columns:1fr 1fr;gap:10px}label{display:block;font-size:11px;font-weight:800;color:var(--m);margin:8px 0 4px}input,select,textarea{width:100%;padding:10px;border:1px solid #ccd8d0;border-radius:8px}textarea{min-height:65px}button{background:var(--a);color:white;border:0;border-radius:9px;padding:11px 13px;font-weight:800;margin-top:12px;cursor:pointer}.secondary{background:#edf2ee;color:#24352d;margin-left:5px}.alert{margin-top:12px;padding:12px;border-radius:10px;background:#fff4df;border:1px solid #edd8a1}.good{background:#eaf4ee;border-color:#cee3d5}.bad{background:#fff0ed;border-color:#efc8c0}.bars{height:190px;display:flex;align-items:end;gap:10px;border-bottom:1px solid var(--l);padding-bottom:8px}.bar{flex:1;background:#b7c8bd;position:relative;border-radius:6px 6px 0 0}.bar.current{background:#347958}.bar em{position:absolute;top:-20px;width:100%;text-align:center;font-size:10px;font-style:normal;font-weight:800}.bar span{position:absolute;bottom:-25px;width:100%;text-align:center;font-size:10px;color:var(--m)}table{width:100%;border-collapse:collapse;font-size:12px}th,td{padding:9px;border-bottom:1px solid var(--l);text-align:left}.arch{display:grid;grid-template-columns:repeat(6,1fr);gap:8px}.node{background:#f6f9f7;border:1px solid var(--l);border-radius:10px;padding:11px;font-size:12px}.tech{display:flex;gap:7px;flex-wrap:wrap;margin-top:10px}footer{margin-top:25px;color:var(--m);font-size:11px}
+@media(max-width:900px){.hero,.grid{grid-template-columns:1fr}.kpis{grid-template-columns:1fr 1fr}.arch{grid-template-columns:1fr 1fr}}@media(max-width:520px){.kpis,.row,.arch{grid-template-columns:1fr}}
+</style></head><body>
+<header><div class="brand">FoodCycle AI<br><small>TEKNOFEST 2026 · Final Web MVP V2.0</small></div><div class="demo">DEMO MODE · SIMULATED SENSOR DATA</div></header>
+<main>
+<section class="hero"><div class="card"><h1>Ölç → Tahmin Et → Müdahale Et → Doğrula</h1><p class="muted">Toplu yemek operasyonlarında gıda atığını ölçümden karar desteğine taşıyan kapalı çevrim Web MVP. Sensör verisi bu sürümde simüle edilmektedir.</p><div class="flow"><span>Ölçüm</span><span>Doğrulama</span><span>KPI</span><span>Tahmin</span><span>Müdahale</span><span>Yeniden Ölçüm</span></div></div>
+<div class="card"><h2>Sistem Durumu</h2><p><b>İstasyon:</b> FC-DEMO-01</p><p><b>Bağlantı:</b> Simülasyon</p><p><b>Model modu:</b> Baseline + Demo Prediction</p><div class="alert good"><b>Doğruluk sınırı:</b> Demo değerleri gerçek saha sonucu değildir.</div></div></section>
+
+<div class="kpis"><div class="kpi"><small>Toplam Atık</small><b id="total">8.40 kg</b></div><div class="kpi"><small>Kişi Başı Atık</small><b id="gpp">70 g</b></div><div class="kpi"><small>Üretim Fazlası</small><b id="surplus">5.0%</b></div><div class="kpi"><small>Plan-Gerçek Sapması</small><b id="delta">11.1%</b></div><div class="kpi"><small>Müdahale Etkisi</small><b id="impact">—</b></div></div>
+
+<section class="grid">
+<div class="card" id="measurement"><h2>1 · Sensörlü Tartım / Atık Kaydı</h2><p class="muted">Fiziksel pilotta ESP32 + Load Cell + HX711 aynı veri sözleşmesine bağlanacaktır.</p><div class="row">
+<div><label>Öğün</label><select id="meal"><option>Öğle</option><option>Akşam</option></select></div><div><label>Atık türü</label><select id="type"><option value="plate">Tabak atığı</option><option value="surplus">Üretim fazlası</option><option value="prep">Hazırlık atığı</option></select></div><div><label>Net ağırlık (g)</label><input id="weight" type="number" value="1850"></div><div><label>Gerçek kişi</label><input id="people" type="number" value="120"></div><div><label>Üretim (kg)</label><input id="produced" type="number" value="42"></div><div><label>Planlanan kişi</label><input id="planned" type="number" value="135"></div></div>
+<button onclick="record()">Ölçümü İşle</button><button class="secondary" onclick="scenario()">Jüri Demo Senaryosu</button><button class="secondary" onclick="resetDemo()">Sıfırla</button><div id="msg" class="alert good">Demo veri hazır.</div></div>
+
+<div class="card"><h2>2 · 7 Günlük Atık Eğilimi</h2><p class="muted">Normalize gösterge: g/kişi</p><div id="bars" class="bars"></div></div>
+
+<div class="card"><h2>3 · Tahmin ve Üretim Planlama</h2><p class="muted">Pilot aşamasında tahmin modeli rolling baseline'a karşı MAE/MAPE ile karşılaştırılacaktır.</p><div class="row"><div><label>Tahmin edilen katılım</label><input id="predPeople" value="124 kişi" readonly></div><div><label>Önerilen üretim</label><input id="predProd" value="39.7 kg" readonly></div></div><div id="predText" class="alert good">Planlanan 135 kişiye karşı demo tahmini 124.</div></div>
+
+<div class="card"><h2>4 · Intervention Engine</h2><p class="muted">KPI sapması + atık türü + bağlam → öncelik + gerekçe + insan onayı.</p><div id="intervention" class="alert"><b>Öncelik: Orta</b><br>Üretim/porsiyon planını gözden geçir.</div><label>Operatör notu</label><textarea id="note"></textarea><button onclick="apply()">Müdahaleyi Kaydet</button><div id="applyStatus" class="alert good">Henüz uygulama kaydı yok.</div></div>
+
+<div class="card"><h2>5 · Önce / Sonra Doğrulama</h2><p class="muted">Başarı öneri sayısıyla değil, fiziksel KPI değişimiyle ölçülür.</p><div class="row"><div><label>Baseline g/kişi</label><input id="base" type="number" value="82"></div><div><label>Post g/kişi</label><input id="post" type="number" value="64"></div></div><button onclick="calc()">Etkiyi Hesapla</button><div id="impactBox" class="alert good">Formül: (baseline − post) / baseline × 100</div></div>
+
+<div class="card"><h2>6 · Döngüsellik ve Etki</h2><p class="muted">Doğrulanmamış CO₂e veya maliyet katsayısı kullanılmaz.</p><p><b>Önlenebilir atık:</b> <span id="avoidable">6.30 kg</span></p><p><b>Yönlendirilebilir atık:</b> <span id="circular">2.10 kg</span></p><div class="alert good">CO₂e ve ekonomik etki yalnızca doğrulanmış katsayı/kanal ile hesaplanacaktır.</div></div>
+
+<div class="card full"><h2>7 · Olay Kayıtları / İzlenebilirlik</h2><table><thead><tr><th>Zaman</th><th>Öğün</th><th>Tür</th><th>Ağırlık</th><th>Kişi</th><th>g/kişi</th></tr></thead><tbody id="events"></tbody></table></div>
+
+<div class="card full"><h2>8 · Teknik Mimari ve Teknoloji Kanıtı</h2><div class="arch"><div class="node"><b>Ölçüm</b><br>Load Cell + HX711</div><div class="node"><b>Edge</b><br>ESP32</div><div class="node"><b>API</b><br>REST/JSON + TLS</div><div class="node"><b>Veri</b><br>PostgreSQL</div><div class="node"><b>Karar</b><br>KPI + Prediction + Intervention</div><div class="node"><b>UI</b><br>Dashboard + cihaz sağlığı</div></div>
+<div class="tech"><span>HTML5</span><span>CSS3</span><span>JavaScript</span><span>Vercel</span><span>ESP32</span><span>HX711</span><span>REST/JSON</span><span>PostgreSQL</span><span>MAE/MAPE</span><span>Git</span></div></div>
+
+<div class="card full" id="hardware">
+  <h2>9 · Fiziksel Sensör Bağlantısı — Web Serial</h2>
+  <p class="muted">Chrome/Edge masaüstünde ESP32'yi USB üzerinden doğrudan bağlar. Fiziksel sensör bağlıysa demo modundan gerçek ölçüm moduna geçilebilir.</p>
+  <div class="row">
+    <div><label>Bağlantı durumu</label><input id="serialStatus" value="Bağlı değil" readonly></div>
+    <div><label>Son sensör ağırlığı</label><input id="serialWeight" value="— g" readonly></div>
+  </div>
+  <button onclick="connectSerial()">ESP32'ye Bağlan</button>
+  <button class="secondary" onclick="disconnectSerial()">Bağlantıyı Kes</button>
+  <button class="secondary" onclick="useSerialMeasurement()">Son Sensör Ölçümünü Forma Aktar</button>
+  <div id="serialMsg" class="alert good">Beklenen veri biçimi: {"device_uid":"FC-PILOT-01","weight_g":1850,"stable":true,"calibration_version":"CAL-001"}</div>
+</div>
+
+</section>
+<footer><b>FoodCycle AI · ATOM Labs · TEKNOFEST 2026</b><br>Final Web MVP V2.0 — simüle sensör verisi kullanır; gerçek pilot başarısı iddiası içermez.</footer>
+</main>
+<script>
+const H=[76,72,81,68,74,71,70];let s={h:[...H],total:8400,people:120,prod:42,surplus:2100,planned:135,events:[["Demo-1","Öğle","Tabak",1680,120,14],["Demo-2","Öğle","Üretim fazlası",2100,120,18]]};
+function draw(){bars.innerHTML="";s.h.forEach((v,i)=>{let b=document.createElement("div");b.className="bar "+(i==s.h.length-1?"current":"");b.style.height=Math.max(15,v*1.8)+"px";b.innerHTML=`<em>${v}</em><span>G${i+1}</span>`;bars.appendChild(b)});events.innerHTML="";[...s.events].reverse().slice(0,8).forEach(e=>events.innerHTML+=`<tr><td>${e[0]}</td><td>${e[1]}</td><td>${e[2]}</td><td>${(e[3]/1000).toFixed(2)} kg</td><td>${e[4]}</td><td>${e[5]}</td></tr>`)}
+function update(){total.textContent=(s.total/1000).toFixed(2)+" kg";gpp.textContent=Math.round(s.total/s.people)+" g";surplus.textContent=((s.surplus/1000/s.prod)*100).toFixed(1)+"%";delta.textContent=(Math.abs(s.planned-s.people)/s.planned*100).toFixed(1)+"%";avoidable.textContent=(s.total*.75/1000).toFixed(2)+" kg";circular.textContent=(s.total*.25/1000).toFixed(2)+" kg";draw()}
+function scenario(){type.value="surplus";weight.value=4200;people.value=120;produced.value=42;planned.value=135;msg.className="alert";msg.innerHTML="<b>Jüri demo senaryosu:</b> 4.200 g üretim fazlası yüklendi. Şimdi ölçümü işle."}
+function record(){let w=+weight.value,p=+people.value,pr=+produced.value,pl=+planned.value,t=type.value;if(w<=0||p<=0||pr<=0){msg.className="alert bad";msg.textContent="Geçersiz veri.";return}s.total+=w;s.people=p;s.prod=pr;s.planned=pl;if(t=="surplus")s.surplus+=w;let x=Math.round(w/p);s.h.push(x);s.h=s.h.slice(-7);let pp=Math.round(p*.7+pl*.3);predPeople.value=pp+" kişi";predProd.value=(pr*(pp/p)).toFixed(1)+" kg";predText.innerHTML=`Planlanan <b>${pl}</b> kişiye karşı tahmin <b>${pp}</b>. Önerilen üretim <b>${(pr*(pp/p)).toFixed(1)} kg</b>.`;let typ=t=="surplus"?"Üretim fazlası":t=="prep"?"Hazırlık":"Tabak";intervention.className="alert "+(t=="surplus"||x>30?"bad":"good");intervention.innerHTML=`<b>Öncelik: ${t=="surplus"||x>30?"Yüksek":"Orta"}</b><br>${typ} kaydı işlendi. Bir sonraki öğünde üretim/porsiyon planını ayarla ve aynı KPI ile yeniden ölç.`;s.events.push([new Date().toLocaleTimeString("tr-TR",{hour:"2-digit",minute:"2-digit"}),meal.value,typ,w,p,x]);msg.className="alert good";msg.innerHTML=`<b>${w} g</b> simüle ölçüm → KPI → tahmin → müdahale akışına işlendi.`;update()}
+function apply(){applyStatus.innerHTML=`<b>Uygulandı (Demo)</b><br>${note.value||"Üretim/porsiyon planı gözden geçirilecek."}<br>Sonraki adım: yeniden ölçüm.`}
+function calc(){let b=+base.value,p=+post.value,x=(b-p)/b*100;impact.textContent=x.toFixed(1)+"%";impactBox.innerHTML=`Demo etki: <b>${x.toFixed(1)}%</b> iyileşme. Gerçek pilot sonucu değildir.`}
+function resetDemo(){s={h:[...H],total:8400,people:120,prod:42,surplus:2100,planned:135,events:[["Demo-1","Öğle","Tabak",1680,120,14],["Demo-2","Öğle","Üretim fazlası",2100,120,18]]};impact.textContent="—";msg.textContent="Demo sıfırlandı.";update()}update();
+
+let serialPort=null, serialReader=null, lastSerialMeasurement=null;
+
+async function connectSerial(){
+  if(!("serial" in navigator)){
+    serialMsg.className="alert bad";
+    serialMsg.textContent="Bu tarayıcı Web Serial desteklemiyor. Masaüstü Chrome veya Edge kullanın.";
+    return;
+  }
+  try{
+    serialPort = await navigator.serial.requestPort();
+    await serialPort.open({baudRate:115200});
+    serialStatus.value="Bağlı · 115200 baud";
+    serialMsg.className="alert good";
+    serialMsg.textContent="ESP32 bağlantısı açıldı. Stabil ağırlık verisi bekleniyor.";
+    readSerialLoop();
+  }catch(err){
+    serialMsg.className="alert bad";
+    serialMsg.textContent="Bağlantı açılamadı: "+err.message;
+  }
+}
+
+async function readSerialLoop(){
+  const decoder = new TextDecoderStream();
+  serialPort.readable.pipeTo(decoder.writable);
+  serialReader = decoder.readable.getReader();
+  let buffer="";
+  try{
+    while(true){
+      const {value,done}=await serialReader.read();
+      if(done) break;
+      buffer+=value;
+      const lines=buffer.split("\n");
+      buffer=lines.pop();
+      for(const line of lines){
+        const t=line.trim();
+        if(!t) continue;
+        try{
+          const d=JSON.parse(t);
+          if(typeof d.weight_g==="number"){
+            lastSerialMeasurement=d;
+            serialWeight.value=d.weight_g.toFixed(0)+" g"+(d.stable?" · stabil":" · stabil değil");
+            serialStatus.value="Bağlı · "+(d.device_uid||"ESP32");
+            if(d.stable){
+              serialMsg.className="alert good";
+              serialMsg.innerHTML=`Gerçek sensör ölçümü alındı: <b>${d.weight_g.toFixed(0)} g</b> · kalibrasyon ${d.calibration_version||"?"}`;
+            }
+          }
+        }catch(e){}
+      }
+    }
+  }catch(err){
+    serialMsg.className="alert bad";
+    serialMsg.textContent="Seri veri okuma hatası: "+err.message;
+  }finally{
+    try{serialReader.releaseLock()}catch(e){}
+  }
+}
+
+async function disconnectSerial(){
+  try{
+    if(serialReader) await serialReader.cancel();
+    if(serialPort) await serialPort.close();
+  }catch(e){}
+  serialPort=null;serialReader=null;
+  serialStatus.value="Bağlı değil";
+  serialMsg.className="alert good";
+  serialMsg.textContent="Seri bağlantı kapatıldı.";
+}
+
+function useSerialMeasurement(){
+  if(!lastSerialMeasurement){
+    serialMsg.className="alert bad";
+    serialMsg.textContent="Henüz sensör ölçümü alınmadı.";
+    return;
+  }
+  if(!lastSerialMeasurement.stable){
+    serialMsg.className="alert";
+    serialMsg.textContent="Son ölçüm stabil değil. Platform sabitlenene kadar bekleyin.";
+    return;
+  }
+  weight.value=Math.round(lastSerialMeasurement.weight_g);
+  msg.className="alert good";
+  msg.innerHTML=`Fiziksel sensör ölçümü forma aktarıldı: <b>${Math.round(lastSerialMeasurement.weight_g)} g</b>. Öğün ve kişi bilgilerini kontrol edip “Ölçümü İşle” butonuna basın.`;
+  window.scrollTo({top:document.querySelector("#measurement")?.offsetTop||0,behavior:"smooth"});
+}
+
+</script></body></html>
