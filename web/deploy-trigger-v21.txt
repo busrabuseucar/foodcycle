@@ -1,0 +1,1 @@
+FoodCycle AI Web MVP V2.1 deployment trigger after setting Vercel Root Directory to web.
