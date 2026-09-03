@@ -1,0 +1,2 @@
+FoodCycle AI GitHub → Vercel automatic deployment test.
+Created: 2026-09-03
