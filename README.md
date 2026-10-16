@@ -57,3 +57,7 @@ Node.js 22/24 CI: hesaplama, günlük toplama, doğrulama, saklama hataları, ye
 [Teknik Tasarım ve Kararlar](docs/TECHNICAL_DESIGN.md)
 
 Geliştirici: Büşra Buse Uçar · ATOM Labs
+
+## İşletim
+
+[İşletim ve sürüm doğrulama](docs/OPERATIONS.md) — kurulum, veri saklama, yayın, geri dönüş ve doğrulama kapsamı.
