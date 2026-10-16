@@ -54,6 +54,6 @@ npm test
 
 Node.js 22/24 CI: hesaplama, günlük toplama, doğrulama, saklama hataları, yenileme, HTML enjeksiyonu ve sensör aktarımı kontrolleri. DOM testleri jsdom kullanır; gerçek tarayıcı veya fiziksel USB testi yerine geçmez.
 
-[Teknik kararlar ve mülakat notları](docs/INTERVIEW.md)
+[Teknik Tasarım ve Kararlar](docs/TECHNICAL_DESIGN.md)
 
 Geliştirici: Büşra Buse Uçar · ATOM Labs
