@@ -43,7 +43,7 @@ Sunucu, kimlik doğrulama, REST API, PostgreSQL ve eğitilmiş AI modeli **uygul
 - İki sketch ayrı klasördedir; Arduino IDE'de ayrı açılır. `HX711` için **bogde** kütüphanesi hedeflenir. Kalibrasyon faktörü örnektir; referans ağırlıkla ayarlanmalıdır. Firmware gram çıktısı için `get_units` değerini kg kabul eder.
 - İlk beş örnek dolmadan ve tare sonrası yeniden dolmadan stabil kabul edilmez.
 
-Fiziksel donanım, firmware derlemesi ve kalibrasyon bu yazılım incelemesinde doğrulanmadı. [Bağlantı planı](docs/01_BAGLANTI_PLANI.md) ve [donanım test protokolü](docs/03_TEST_PROTOKOLU.md) sahada uygulanmalı.
+Ölçüm ve kalibrasyon firmware’leri 16 Ekim 2026’da sabitlenmiş ESP32 DevKit V1 hedefinde GitHub Actions üzerinde derlendi. [Tekrarlanabilir derleme kaydı](docs/FIRMWARE_BUILD.md). Fiziksel donanım ve kalibrasyon doğrulanmadı. [Bağlantı planı](docs/01_BAGLANTI_PLANI.md) ve [donanım test protokolü](docs/03_TEST_PROTOKOLU.md) sahada uygulanmalı.
 
 ## Testler
 

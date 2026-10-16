@@ -6,7 +6,7 @@ Son inceleme: **16 Ekim 2026**. Bu belge kurulum, veri akışı, sürüm kapıla
 
 - Denetlenen uygulama commit’i: `54eb3e40e274f79c5173bc162093c91ca25a1a32`.
 - [Bu commit için başarılı CI kaydı](https://github.com/busrabuseucar/foodcycle/actions/runs/38898592952).
-- Doğrulanan otomatik kapsam: 12 DOM/hesap/sensör aktarımı testi.
+- Doğrulanan otomatik kapsam: 12 DOM/hesap/sensör aktarımı testi; iki ESP32 firmware hedefi için başarılı derleme (ayrıntılar: [firmware kaydı](FIRMWARE_BUILD.md)).
 - Testlerin gerçek servis, veri veya donanım yerine taklit kullandığı noktalar aşağıda açıkça ayrılmıştır.
 
 ## Kurulum ve çalışma
