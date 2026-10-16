@@ -4,7 +4,7 @@
   Serial JSON stream for Web Serial integration.
 
   Library:
-    HX711 by bogde / Rob Tillaart compatible API: begin(), set_scale(), tare(), get_units()
+    HX711 by bogde API: begin(), set_scale(), tare(), get_units()
 */
 
 #include "HX711.h"
@@ -26,6 +26,7 @@ const unsigned long STREAM_INTERVAL_MS = 500;
 
 float lastWeights[5] = {0,0,0,0,0};
 int wIndex = 0;
+int sampleWindowCount = 0;
 unsigned long lastStream = 0;
 
 float readWeightGrams() {
@@ -37,6 +38,8 @@ bool isStable(float current) {
   lastWeights[wIndex] = current;
   wIndex = (wIndex + 1) % 5;
 
+  if(sampleWindowCount < 5) sampleWindowCount++;
+  if(sampleWindowCount < 5) return false;
   float minV = lastWeights[0], maxV = lastWeights[0];
   for(int i=1;i<5;i++){
     if(lastWeights[i] < minV) minV = lastWeights[i];
@@ -75,6 +78,7 @@ void loop() {
     char c = Serial.read();
     if(c=='T' || c=='t'){
       scale.tare(20);
+      sampleWindowCount = 0;
       Serial.println("{\"event\":\"tare\",\"status\":\"ok\"}");
     }
   }
@@ -88,6 +92,7 @@ void loop() {
       bool stable = isStable(weightG);
       printJson(weightG, stable);
     }else{
+      sampleWindowCount = 0;
       Serial.println("{\"event\":\"sensor_error\",\"code\":\"HX711_NOT_READY\"}");
     }
   }
