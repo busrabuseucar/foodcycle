@@ -11,6 +11,7 @@ jobs:
     runs-on: ubuntu-latest
     timeout-minutes: 15
     strategy:
+      fail-fast: false
       matrix:
         sketch: [FoodCycleAI_ESP32_HX711, FoodCycleAI_HX711_Calibration]
     steps:
