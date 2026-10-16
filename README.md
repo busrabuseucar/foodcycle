@@ -1,5 +1,11 @@
 # FoodCycle — Gıda Atığı Ölçüm ve Karar Destek Prototipi
 
+## Canlı demonun kapsamı
+
+[Demoyu aç](https://foodcycle-ai-web-mvp.vercel.app)
+
+Tartım kaydı, kişi başı atık hesabı ve grafikler tarayıcıda çalışır. Örnek/manuel veriler yerel saklanır. Katılım önerisi %70 gerçekleşen + %30 planlanan kişi kuralıdır; eğitilmiş model değildir. Fiziksel ölçüm kalibre edilmiş ESP32 + HX711, USB ve desteklenen tarayıcı gerektirir; firmware derlemesi fiziksel ölçüm doğrulaması değildir.
+
 Toplu yemek servislerinde atık tartımlarını kaydeden, servis başına kişi sayısıyla normalize eden ve operatöre açık kurallı karar desteği sunan HTML/CSS/JavaScript uygulaması. ESP32 + HX711 için Web Serial bağlantısı ve firmware kaynakları içerir.
 
 ## Çalıştırma
